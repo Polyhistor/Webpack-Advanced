@@ -5,7 +5,8 @@ const config = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    publicPath: "build/"
   },
 
   plugins: [
@@ -30,6 +31,20 @@ const config = {
             }
           },
           "css-loader"
+        ]
+      },
+      {
+        // #1 match agains any name that contains either jpg, jpeg, png, gif, or SVG
+        // #2 the order that you pass elements to use array is important,
+        // the one on the far right will be called and used first
+        test: /\.(jpe?g|png|gif|svg)$/,
+
+        use: [
+          {
+            loader: "url-loader",
+            options: { limit: 40000 }
+          },
+          "image-webpack-loader"
         ]
       }
     ]
